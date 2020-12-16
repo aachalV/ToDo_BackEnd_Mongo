@@ -1,9 +1,14 @@
 # ToDo_BackEnd_Mongo
 Implemented CRUD operations for ToDoList (Backend) using MongoDb
 
-## Features
 - Created an express api for creating a to do application.
 - MongoDb is used as a storage.
+- HTTP Methods are used for implementing the api endpoints
+> - get()
+> - post()
+> - patch()
+> - delete()
+## Features
 - The application provides end points for the following CRUD operation
   1. Create a task
   2. Read all tasks
