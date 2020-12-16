@@ -1,4 +1,3 @@
-//model my task object
 const uniqid = require("uniqid");
 const mongoose = require("mongoose");
 

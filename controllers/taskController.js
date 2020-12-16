@@ -1,22 +1,19 @@
 // all the route handlers for todo list
-// const fs = require("fs");
-// const path = require("path");
+
 const Task = require("../models/Task");
 const AppError = require("../helpers/appErrorClass");
 const sendResponse = require("../helpers/sendResponse");
 const sendErrorMessage = require("../helpers/sendError");
-// const fileName = path.join(__dirname, "../data", "tasks.json");
-// const tasks = JSON.parse(fs.readFileSync(fileName, "utf-8"));
 
 //READ
 const getAllTasks = (req, res, next) => {
   Task.find({})
     .then((allTasks) => {
-      sendResponse(200, "Sucessful", allTasks, req, res);
+      sendResponse(200, "Sucessfull", allTasks, req, res);
     })
     .catch((err) => {
       return sendErrorMessage(
-        new AppError(500, "Unsuccessful", "Internal Error...try again later"),
+        new AppError(500, "Unsuccessfull", "Internal Error...try again later"),
         req,
         res
       );
@@ -32,7 +29,7 @@ const verifyPostRequest = (req, res, next) => {
   });
   if (!result) {
     return sendErrorMessage(
-      new AppError(400, "Unsuccessful", "request body Invalid Input"),
+      new AppError(400, "Unsuccessfull", "request body Invalid Input"),
       req,
       res
     );
@@ -55,7 +52,7 @@ const createTask = (req, res, next) => {
     .catch((err) => {
       console.log(err);
       return sendErrorMessage(
-        new AppError(400, "Unsuccessful", "request body Invalid Input"),
+        new AppError(400, "Unsuccessfull", "request body Invalid Input"),
         req,
         res
       );
@@ -68,7 +65,7 @@ const isIdValid = async (req, res, next) => {
   console.log(isValid);
   if (isValid == null) {
     return sendErrorMessage(
-      new AppError(400, "Unsuccessful", "Request body 'Invalid' Input"),
+      new AppError(400, "Unsuccessfull", "Request body 'Invalid' Input"),
       req,
       res
     );
@@ -100,7 +97,7 @@ const updateToDoStatus = (req, res, next) => {
   });
   if (!result) {
     return sendErrorMessage(
-      new AppError(400, "Unsuccessful", "Request body : Invalid Input"),
+      new AppError(400, "Unsuccessfull", "Request body : Invalid Input"),
       req,
       res
     );
@@ -113,7 +110,7 @@ const updateToDoStatus = (req, res, next) => {
       .catch((err) => {
         console.log("INTERNAL Error >>>>");
         return sendErrorMessage(
-          new AppError(500, "Unsuccessful", "Internal Error"),
+          new AppError(500, "Unsuccessfull", "Internal Error"),
           req,
           res
         );
@@ -125,13 +122,13 @@ const deleteToDoById = (req, res, next) => {
   let id = req.params.id;
   Task.deleteOne({ taskId: id })
     .then((task) => {
-      console.log("TASK Removed from Db");
-      sendResponse(200, "Successful deleted task", task, req, res);
+      console.log("Task Removed from Db");
+      sendResponse(200, "Successfully deleted task", task, req, res);
     })
     .catch((err) => {
       console.log("Internal Error >>>>>");
       return sendErrorMessage(
-        new AppError(500, "Unsuccessful", "Internal Error"),
+        new AppError(500, "Unsuccessfull", "Internal Error"),
         req,
         res
       );
