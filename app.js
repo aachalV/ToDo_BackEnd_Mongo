@@ -7,7 +7,7 @@ const taskRouter = require("./routes/todoRoutes");
 
 mongoose.connect(
   process.env.DATABASE_URL,
-  { useNewUrlParser: true, useUnifiedTopology: true },
+  { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false },
   (err, connection) => {
     if (err) {
       return console.log("Err in connecting to DB");

@@ -4,10 +4,12 @@ const Task = require("../models/Task");
 const AppError = require("../helpers/appErrorClass");
 const sendResponse = require("../helpers/sendResponse");
 const sendErrorMessage = require("../helpers/sendError");
+const { Mongoose } = require("mongoose");
 
 //READ
 const getAllTasks = (req, res, next) => {
   Task.find({})
+    .select("-_id")
     .then((allTasks) => {
       sendResponse(200, "Sucessfull", allTasks, req, res);
     })
@@ -61,7 +63,7 @@ const createTask = (req, res, next) => {
 //Check if id is VALID
 const isIdValid = async (req, res, next) => {
   let id = req.params.id;
-  const isValid = await Task.findOne({ taskId: id });
+  const isValid = await Task.findOne({ taskId: id }).select("-_id");
   console.log(isValid);
   if (isValid == null) {
     return sendErrorMessage(
@@ -105,6 +107,7 @@ const updateToDoStatus = (req, res, next) => {
   } else {
     let id = req.params.id;
     Task.findOneAndUpdate({ taskId: id }, { status: req.body.status })
+      .select("-_id")
       .then((task) => {
         sendResponse(200, "Sucessfully found task by Id", task, req, res);
       })
@@ -122,6 +125,7 @@ const updateToDoStatus = (req, res, next) => {
 const deleteToDoById = (req, res, next) => {
   let id = req.params.id;
   Task.deleteOne({ taskId: id })
+    .select("-_id")
     .then((task) => {
       console.log("Task Removed from Db");
       sendResponse(200, "Successfully deleted task", task, req, res);
