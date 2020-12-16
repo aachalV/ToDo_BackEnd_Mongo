@@ -44,6 +44,7 @@ const createTask = (req, res, next) => {
   let newTask = new Task({
     taskName: req.body.taskName,
     sharedWith: req.body.sharedWith,
+    status: req.body.status,
   });
   newTask
     .save()
@@ -93,6 +94,7 @@ const getTaskById = (req, res, next) => {
 };
 
 //UPDATE
+const opts = { runValidators: true };
 const updateToDoStatus = (req, res, next) => {
   const requiredProperties = ["status"];
   let result = requiredProperties.every((key) => {
@@ -104,22 +106,21 @@ const updateToDoStatus = (req, res, next) => {
       req,
       res
     );
-  } else {
-    let id = req.params.id;
-    Task.findOneAndUpdate({ taskId: id }, { status: req.body.status })
-      .select("-_id")
-      .then((task) => {
-        sendResponse(200, "Sucessfully found task by Id", task, req, res);
-      })
-      .catch((err) => {
-        console.log("INTERNAL Error >>>>");
-        return sendErrorMessage(
-          new AppError(500, "Unsuccessfull", "Internal Error"),
-          req,
-          res
-        );
-      });
   }
+  let id = req.params.id;
+  Task.findOneAndUpdate({ taskId: id }, { status: req.body.status }, opts)
+    .select("-_id")
+    .then((task) => {
+      sendResponse(200, "Sucessfully found task by Id", task, req, res);
+    })
+    .catch((err) => {
+      console.log("INTERNAL Error >>>>");
+      return sendErrorMessage(
+        new AppError(500, "Unsuccessfull", "Internal Error"),
+        req,
+        res
+      );
+    });
 };
 //DELETE
 const deleteToDoById = (req, res, next) => {

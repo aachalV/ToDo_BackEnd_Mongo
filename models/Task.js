@@ -1,6 +1,7 @@
 const uniqid = require("uniqid");
 const mongoose = require("mongoose");
-
+const sendErrorMessage = require("../helpers/sendError");
+const AppError = require("../helpers/appErrorClass");
 const taskSchema = new mongoose.Schema(
   {
     //   userId: {
@@ -37,16 +38,9 @@ const taskSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
+  { strict: true }
 );
+
 const Task = mongoose.model("Task", taskSchema);
 module.exports = Task;
-
-// class Task {
-//     constructor(taskName){
-//         this.uniqid = uniqid();
-//         this.taskName = taskName;
-//         this.status = "Pending";
-//     }
-// }
-// module.exports = Task;
