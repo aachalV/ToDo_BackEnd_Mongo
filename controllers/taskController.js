@@ -79,6 +79,7 @@ const isIdValid = async (req, res, next) => {
 const getTaskById = (req, res, next) => {
   let id = req.params.id;
   Task.findOne({ taskId: id })
+    .select("-_id")
     .then((task) => {
       console.log("Found task by Id >>>>");
       console.log(task);
